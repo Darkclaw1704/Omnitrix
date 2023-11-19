@@ -15,7 +15,7 @@ public class PauseScreen extends Application {
     }
         @Override
     public void start(Stage primaryStage) {
-        // Create buttons
+
         Button continueButton = new Button("Continue");
         Button playAgainButton = new Button("Play Again");
         Button saveGameButton = new Button("Save Game");
@@ -23,7 +23,6 @@ public class PauseScreen extends Application {
         Button soundButton = new Button("Sound");
         Button helpButton = new Button("Help");
 
-        // Set button size and font size
         continueButton.setPrefSize(200, 50);
         continueButton.setStyle("-fx-font-size: 20px;");
         playAgainButton.setPrefSize(200, 50);
@@ -40,25 +39,19 @@ public class PauseScreen extends Application {
         Label title = new Label("  GAME \nPAUSED");
         title.setStyle("-fx-font-size: 50px; -fx-font-weight: bold; -fx-text-fill: white; -fx-stroke: black; -fx-stroke-width: 2;");
 
-
         Pane spacer = new Pane();
-        spacer.setMinHeight(50); // Set the height of the spacer
+        spacer.setMinHeight(50);
 
-
-            // Arrange buttons vertically and center them
-        VBox menuLayout = new VBox(10); // Set vertical spacing
+        VBox menuLayout = new VBox(10);
         menuLayout.getChildren().addAll(title, spacer, continueButton, playAgainButton, saveGameButton, mainMenuButton, soundButton, helpButton);
-        menuLayout.setAlignment(Pos.CENTER); // Center alignment
+        menuLayout.setAlignment(Pos.CENTER);
 
-        // Set the background image of the scene
         Image backgroundImage = new Image("file:pauseScreen.png");
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         menuLayout.setBackground(new Background(background));
 
-        // Create scene
         Scene scene = new Scene(menuLayout, 360, 640);
 
-        // Set stage properties
         primaryStage.setTitle("Stick Hero Game Paused");
         primaryStage.setScene(scene);
         primaryStage.show();
