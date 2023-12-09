@@ -9,32 +9,42 @@ import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class PauseScreen extends Application {
-    public static void main(String[] args) {
-        launch(args);
+import java.io.IOException;
+import java.io.Serializable;
+
+//Singleton Class
+public class PauseScreen extends Screen {
+    private static PauseScreen instance;
+    private Scene scene;
+    private PauseScreen() {
+        super();
     }
-        @Override
-    public void start(Stage primaryStage) {
+
+    public static PauseScreen getInstance(){
+        if(instance==null){
+            instance= new PauseScreen();
+        }
+        return instance;
+    }
+
+    @Override
+    public PauseScreen createScreen(Stage primaryStage, Game game) {
 
         Button continueButton = new Button("Continue");
         Button playAgainButton = new Button("Play Again");
-        Button saveGameButton = new Button("Save Game");
         Button mainMenuButton = new Button("Main Menu");
-        Button soundButton = new Button("Sound");
-        Button helpButton = new Button("Help");
+
 
         continueButton.setPrefSize(200, 50);
         continueButton.setStyle("-fx-font-size: 20px;");
         playAgainButton.setPrefSize(200, 50);
         playAgainButton.setStyle("-fx-font-size: 20px;");
-        saveGameButton.setPrefSize(200, 50);
-        saveGameButton.setStyle("-fx-font-size: 20px;");
         mainMenuButton.setPrefSize(200, 50);
         mainMenuButton.setStyle("-fx-font-size: 20px;");
-        soundButton.setPrefSize(200, 50);
-        soundButton.setStyle("-fx-font-size: 20px;");
-        helpButton.setPrefSize(200, 50);
-        helpButton.setStyle("-fx-font-size: 20px;");
+//        soundButton.setPrefSize(200, 50);
+//        soundButton.setStyle("-fx-font-size: 20px;");
+//        helpButton.setPrefSize(200, 50);
+//        helpButton.setStyle("-fx-font-size: 20px;");
 
         Label title = new Label("  GAME \nPAUSED");
         title.setStyle("-fx-font-size: 50px; -fx-font-weight: bold; -fx-text-fill: white; -fx-stroke: black; -fx-stroke-width: 2;");
@@ -42,18 +52,42 @@ public class PauseScreen extends Application {
         Pane spacer = new Pane();
         spacer.setMinHeight(50);
 
+        mainMenuButton.setOnAction(e -> {
+            Scene mainMenuScene = MainMenuApp.getMainMenuScene();
+            primaryStage.setScene(mainMenuScene);
+        });
+        continueButton.setOnAction(e -> {
+            Scene gameScene = game.getGameScene();
+            primaryStage.setScene(gameScene);
+        });
+        playAgainButton.setOnAction(e -> {
+            Game newGame = new Game();
+            newGame.createGame(primaryStage,0);
+            primaryStage.setScene(newGame.getGameScene());
+        });
+
+//        saveGameButton.setOnAction(e -> {
+//            try {
+//                Main.serialize(game.getGd());
+//            } catch (IOException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//        });
         VBox menuLayout = new VBox(10);
-        menuLayout.getChildren().addAll(title, spacer, continueButton, playAgainButton, saveGameButton, mainMenuButton, soundButton, helpButton);
+        menuLayout.getChildren().addAll(title, spacer, continueButton, playAgainButton, mainMenuButton);//, soundButton, helpButton
         menuLayout.setAlignment(Pos.CENTER);
 
         Image backgroundImage = new Image("file:pauseScreen.png");
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         menuLayout.setBackground(new Background(background));
 
-        Scene scene = new Scene(menuLayout, 360, 640);
+        scene = new Scene(menuLayout, 360, 640);
 
-        primaryStage.setTitle("Stick Hero Game Paused");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        return this;
+
+    }
+
+    public Scene getScene() {
+        return scene;
     }
 }

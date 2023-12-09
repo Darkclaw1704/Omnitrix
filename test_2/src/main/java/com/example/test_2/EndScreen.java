@@ -12,35 +12,65 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class EndScreen extends Application {
-    public static void main(String[] args) {
-        launch(args);
+public class EndScreen extends Screen{
+    private static EndScreen instance;
+
+    private EndScreen() {
     }
+
+    public static EndScreen getInstance(){
+        if(instance==null){
+            instance= new EndScreen();
+        }
+
+        return instance;
+    }
+
     @Override
-    public void start(Stage primaryStage) {
+    public EndScreen createScreen(Stage primaryStage, Game game) {
 
         Image playAgainImage = new Image("file:playAgainImage.png");
-        Image favourite = new Image("file:favourite.png");
-        Image leaderboard = new Image("file:leaderboard.png");
+        Image revive = new Image("file:favourite.png");
+//        Image leaderboard = new Image("file:leaderboard.png");
         Image home = new Image("file:home.png");
 
-        double maxWidth = Math.max(Math.max(playAgainImage.getWidth(), favourite.getWidth()), Math.max(leaderboard.getWidth(), home.getWidth()));
-        double maxHeight = Math.max(Math.max(playAgainImage.getHeight(), favourite.getHeight()), Math.max(leaderboard.getHeight(), home.getHeight()));
+        double maxWidth = Math.max(Math.max(playAgainImage.getWidth(), revive.getWidth()),  home.getWidth()); //Math.max(leaderboard.getWidth(),
+        double maxHeight = Math.max(Math.max(playAgainImage.getHeight(), revive.getHeight()), home.getHeight());//, Math.max(leaderboard.getHeight()
 
         Button playAgainButton = new Button("", new ImageView(playAgainImage));
-        Button saveGameButton = new Button("", new ImageView(favourite));
-        Button homeButton = new Button("", new ImageView(home));
-        Button leaderboardButton = new Button("", new ImageView(leaderboard));
+        Button reviveButton = new Button("", new ImageView(revive));
+        Button mainMenuButton = new Button("", new ImageView(home));
+//        Button leaderboardButton = new Button("", new ImageView(leaderboard));
 
         playAgainButton.setPrefSize(maxWidth, maxHeight);
-        saveGameButton.setPrefSize(maxWidth, maxHeight);
-        homeButton.setPrefSize(maxWidth, maxHeight);
-        leaderboardButton.setPrefSize(maxWidth, maxHeight);
+        reviveButton.setPrefSize(maxWidth, maxHeight);
+        mainMenuButton.setPrefSize(maxWidth, maxHeight);
+//        leaderboardButton.setPrefSize(maxWidth, maxHeight);
+
+        mainMenuButton.setOnAction(e -> {
+            Scene mainMenuScene = MainMenuApp.getMainMenuScene();
+            primaryStage.setScene(mainMenuScene);
+        });
+        reviveButton.setOnAction(e -> {
+            if(Cherry.getCherryCount() >=1 ) {
+                Cherry.setCherryCount(Cherry.getCherryCount()-1);
+                Game newGame = new Game();
+                newGame.createGame(primaryStage,game.getGd().getScore());
+                primaryStage.setScene(newGame.getGameScene());
+            }
+        });
+        playAgainButton.setOnAction(e -> {
+
+            Game newGame = new Game();
+            newGame.createGame(primaryStage,0);
+            primaryStage.setScene(newGame.getGameScene());
+
+        });
 
         Label title = new Label(" GAME \nOVER!!");
         title.setStyle("-fx-font-size: 50px; -fx-font-weight: bold; -fx-text-fill: white; -fx-stroke: black; -fx-stroke-width: 2;");
 
-        Rectangle rectangle = new Rectangle(250, 200, Color.LIGHTGRAY);
+        Rectangle rectangle = new Rectangle(250, 200, Color.TRANSPARENT);
 
         Pane spacer = new Pane();
         spacer.setMinHeight(50);
@@ -49,11 +79,11 @@ public class EndScreen extends Application {
         spacer2.setMinHeight(50);
 
         HBox menuLayout = new HBox(10);
-        menuLayout.getChildren().addAll(homeButton, leaderboardButton, saveGameButton, playAgainButton);
+        menuLayout.getChildren().addAll(mainMenuButton, reviveButton, playAgainButton);//, leaderboardButton
         menuLayout.setAlignment(Pos.CENTER);
 
-        Label rectangleLabel = new Label("SCORE\n    0  \n BEST\n    3");
-        rectangleLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
+        Label rectangleLabel = new Label("SCORE\n    "+game.getGd().getScore()+"  \n BEST\n    "+Game.getHighScore());
+        rectangleLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;");
         rectangleLabel.setAlignment(Pos.CENTER);
 
         StackPane stackPane = new StackPane();
@@ -67,10 +97,10 @@ public class EndScreen extends Application {
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         vBox.setBackground(new Background(background));
 
-        Scene scene = new Scene(vBox, 360, 640);
+        this.setScene(new Scene(vBox, 360, 640));
+        return this;
 
-        primaryStage.setTitle("Stick Hero Game Paused");
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
+
+
 }
