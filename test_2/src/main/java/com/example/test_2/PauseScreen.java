@@ -41,10 +41,6 @@ public class PauseScreen extends Screen {
         playAgainButton.setStyle("-fx-font-size: 20px;");
         mainMenuButton.setPrefSize(200, 50);
         mainMenuButton.setStyle("-fx-font-size: 20px;");
-//        soundButton.setPrefSize(200, 50);
-//        soundButton.setStyle("-fx-font-size: 20px;");
-//        helpButton.setPrefSize(200, 50);
-//        helpButton.setStyle("-fx-font-size: 20px;");
 
         Label title = new Label("  GAME \nPAUSED");
         title.setStyle("-fx-font-size: 50px; -fx-font-weight: bold; -fx-text-fill: white; -fx-stroke: black; -fx-stroke-width: 2;");
@@ -66,15 +62,8 @@ public class PauseScreen extends Screen {
             primaryStage.setScene(newGame.getGameScene());
         });
 
-//        saveGameButton.setOnAction(e -> {
-//            try {
-//                Main.serialize(game.getGd());
-//            } catch (IOException ex) {
-//                throw new RuntimeException(ex);
-//            }
-//        });
         VBox menuLayout = new VBox(10);
-        menuLayout.getChildren().addAll(title, spacer, continueButton, playAgainButton, mainMenuButton);//, soundButton, helpButton
+        menuLayout.getChildren().addAll(title, spacer, continueButton, playAgainButton, mainMenuButton);
         menuLayout.setAlignment(Pos.CENTER);
 
         Image backgroundImage = new Image("file:pauseScreen.png");

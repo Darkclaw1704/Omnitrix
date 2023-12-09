@@ -31,21 +31,18 @@ public class EndScreen extends Screen{
 
         Image playAgainImage = new Image("file:playAgainImage.png");
         Image revive = new Image("file:favourite.png");
-//        Image leaderboard = new Image("file:leaderboard.png");
         Image home = new Image("file:home.png");
 
-        double maxWidth = Math.max(Math.max(playAgainImage.getWidth(), revive.getWidth()),  home.getWidth()); //Math.max(leaderboard.getWidth(),
-        double maxHeight = Math.max(Math.max(playAgainImage.getHeight(), revive.getHeight()), home.getHeight());//, Math.max(leaderboard.getHeight()
+        double maxWidth = Math.max(Math.max(playAgainImage.getWidth(), revive.getWidth()),  home.getWidth());
+        double maxHeight = Math.max(Math.max(playAgainImage.getHeight(), revive.getHeight()), home.getHeight());
 
         Button playAgainButton = new Button("", new ImageView(playAgainImage));
         Button reviveButton = new Button("", new ImageView(revive));
         Button mainMenuButton = new Button("", new ImageView(home));
-//        Button leaderboardButton = new Button("", new ImageView(leaderboard));
 
         playAgainButton.setPrefSize(maxWidth, maxHeight);
         reviveButton.setPrefSize(maxWidth, maxHeight);
         mainMenuButton.setPrefSize(maxWidth, maxHeight);
-//        leaderboardButton.setPrefSize(maxWidth, maxHeight);
 
         mainMenuButton.setOnAction(e -> {
             Scene mainMenuScene = MainMenuApp.getMainMenuScene();
@@ -82,8 +79,11 @@ public class EndScreen extends Screen{
         menuLayout.getChildren().addAll(mainMenuButton, reviveButton, playAgainButton);//, leaderboardButton
         menuLayout.setAlignment(Pos.CENTER);
 
-        Label rectangleLabel = new Label("SCORE\n    "+game.getGd().getScore()+"  \n BEST\n    "+Game.getHighScore());
-        rectangleLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;");
+        Label rectangleLabel = new Label("     YOUR SCORE\n                "+game.getGd().getScore()
+                +"  \n YOUR BEST SCORE\n                "+Game.getHighScore()
+                +"\n      LAST SCORE\n                "+Game.getLastScore());
+        Game.setLastScore(game.getGd().getScore());
+        rectangleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;");
         rectangleLabel.setAlignment(Pos.CENTER);
 
         StackPane stackPane = new StackPane();
@@ -101,6 +101,5 @@ public class EndScreen extends Screen{
         return this;
 
     }
-
 
 }

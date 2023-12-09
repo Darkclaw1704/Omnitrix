@@ -47,7 +47,6 @@ public class MainMenuApp extends Application {
 
         Scene scene = new Scene(menuLayout, 360, 640);
 
-        // Add moving pixel effect to the "STICK HERO" text
         addMovingPixelEffect(title);
 
         playButton.setOnAction(e -> {
@@ -65,17 +64,9 @@ public class MainMenuApp extends Application {
 
     private void addMovingPixelEffect(Label text) {
         Timeline timeline = new Timeline();
-        timeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO,
-                        new KeyValue(text.translateXProperty(), -100)
-                ),
-                new KeyFrame(Duration.seconds(2),
-                        new KeyValue(text.translateXProperty(), 100)
-                ),
-                new KeyFrame(Duration.seconds(4),
-                        new KeyValue(text.translateXProperty(), 0)
-                )
-        );
+        timeline.getKeyFrames().addAll(new KeyFrame(Duration.ZERO, new KeyValue(text.translateXProperty(), -100)),
+                new KeyFrame(Duration.seconds(2), new KeyValue(text.translateXProperty(), 100)),
+                new KeyFrame(Duration.seconds(4), new KeyValue(text.translateXProperty(), 0)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }

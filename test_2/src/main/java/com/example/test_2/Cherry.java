@@ -20,4 +20,6 @@ public class Cherry extends ImageView {
     public static void setCherryCount(int cherryCount) {
         Cherry.cherryCount = cherryCount;
     }
+
+
 }

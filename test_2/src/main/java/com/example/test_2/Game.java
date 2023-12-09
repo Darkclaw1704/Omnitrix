@@ -36,6 +36,7 @@ import javafx.util.Duration;
 
 public class Game {
     private static int highScore=0;
+    private static int lastScore=0;
     private Scene gameScene;
     private static int cherries =1;
 
@@ -43,33 +44,22 @@ public class Game {
         return highScore;
     }
 
+    public static int getLastScore() {
+        return lastScore;
+    }
+
     public static void setHighScore(int highScore) {
         Game.highScore = highScore;
     }
 
-    //
-//    private Stick stick = new Stick();
-//     private int score = 0;
-//    private Region spacer2 = new Region();
-//
-//    private Ninja zoro = new Ninja();
+    public static void setLastScore(int lastScore) {
+        Game.lastScore = lastScore;
+    }
+
     private GameData gd=new GameData();
-
-
-    public static int getCherries() {
-        return cherries;
-    }
-
-    public static void setCherries(int cherries) {
-        Game.cherries = cherries;
-    }
 
     public Scene getGameScene() {
         return gameScene;
-    }
-
-    public void setGameScene(Scene gameScene) {
-        this.gameScene = gameScene;
     }
 
     public GameData getGd() {
@@ -81,41 +71,11 @@ public class Game {
     }
 
     RandomPillarGenerator rpg =new RandomPillarGenerator();
-    //
-//    public Ninja getZoro() {
-//        return zoro;
-//    }
-//
-//    public void setZoro(Ninja zoro) {
-//        this.zoro = zoro;
-//    }
-//
-//    public Stick getStick() {
-//        return stick;
-//    }
-//
-//    public void setStick(Stick stick) {
-//        this.stick = stick;
-//    }
-//
-//    public int getScore() {
-//        return score;
-//    }
-//
-//    public void setScore(int score) {
-//        this.score = score;
-//    }
-//
-//    public Region getSpacer2() {
-//        return spacer2;
-//    }
-//
-//    public void setSpacer2(Region spacer2) {
-//        this.spacer2 = spacer2;
-//    }
+    private Pane topLayerPane = new Pane();
 
-//    public Game() {
-//    }
+    public Pane getTopLayerPane() {
+        return topLayerPane;
+    }
 
     public Scene createGame(Stage stage, int score) {
         gd.setScore(score);
@@ -162,7 +122,7 @@ public class Game {
         hbox2.getChildren().add(rpg.getFirstPillar().getStackPane());
         gd.getSpacer2().setMinWidth(200.0);
         hbox2.getChildren().add(gd.getSpacer2());
-        Pane topLayerPane = new Pane();
+
         rpg.createNewPillar();
         hbox2.getChildren().add(rpg.getSecondPillar().getStackPane());
         mainVBox.getChildren().addAll(new Node[]{hbox1, hbox2});
@@ -233,7 +193,7 @@ public class Game {
                     gd.getZoro().flip();
                 });
 
-                if(!gd.getZoro().move(this)){
+                if(!gd.getZoro().move(this, stage)){
                     timer.schedule(task, 2500);
                     timer2.schedule(task2, 4500);
                     if(gd.getScore()>Game.highScore){

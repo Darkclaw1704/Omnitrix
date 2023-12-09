@@ -1,6 +1,5 @@
 package com.example.test_2;
 
-import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 
 import java.io.Serializable;
@@ -20,24 +19,8 @@ public class GameData implements Serializable {
         return cherry;
     }
 
-    public void setCherry(Cherry cherry) {
-        this.cherry = cherry;
-    }
-
-//    public Scene getGameScene() {
-//        return gameScene;
-//    }
-//
-//    public void setGameScene(Scene gameScene) {
-//        this.gameScene = gameScene;
-//    }
-
     public Ninja getZoro() {
         return zoro;
-    }
-
-    public void setZoro(Ninja zoro) {
-        this.zoro = zoro;
     }
 
     public Stick getStick() {
@@ -60,7 +43,4 @@ public class GameData implements Serializable {
         return spacer2;
     }
 
-    public void setSpacer2(Region spacer2) {
-        this.spacer2 = spacer2;
-    }
 }

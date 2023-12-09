@@ -19,18 +19,4 @@ public class Main extends Application {
         MainMenuApp mainMenu = new MainMenuApp();
         mainMenu.createMainMenu(stage);
     }
-
-    public static void serialize(GameData s1) throws IOException {
-        {
-            ObjectOutputStream out = null;
-            try {
-                out = new ObjectOutputStream(  new FileOutputStream("SerializedObject.txt"));
-                out.writeObject(s1);
-            }
-            finally {
-                out.close();
-            }
-        }
-    }
-
 }
